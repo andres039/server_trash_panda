@@ -27,7 +27,7 @@ router.get("/api/users", async (req, res) => {
 
 //Select individual users
 
-// router.get("/api/users/:id", (req, res) => {
+router.get("/api/users/:id", (req, res) => {
 //   database
 //     .getUsersById(db, req.params.id)
 //     .then((response) => res.send(response.rows))
@@ -35,7 +35,7 @@ router.get("/api/users", async (req, res) => {
 //       console.log("API/users error:", err);
 //       res.status(500).send();
 //     });
-// });
+});
 
 // router.post("/register", async (req, res) => {
 //   // Our register logic starts here

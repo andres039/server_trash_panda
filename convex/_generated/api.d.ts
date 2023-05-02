@@ -10,8 +10,11 @@
  */
 
 import type { ApiFromModules } from "convex/api";
+import type * as createPin from "../createPin";
+import type * as deletePin from "../deletePin";
 import type * as getPins from "../getPins";
 import type * as getUsers from "../getUsers";
+import type * as updatePin from "../updatePin";
 
 /**
  * A type describing your app's public Convex API.
@@ -23,6 +26,9 @@ import type * as getUsers from "../getUsers";
  * `ConvexReactClient` to create app-specific types.
  */
 export type API = ApiFromModules<{
+  createPin: typeof createPin;
+  deletePin: typeof deletePin;
   getPins: typeof getPins;
   getUsers: typeof getUsers;
+  updatePin: typeof updatePin;
 }>;

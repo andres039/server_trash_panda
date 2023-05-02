@@ -3,30 +3,25 @@ import { Router } from "express";
 require("dotenv").config({ path: ".env.local" });
 
 const { ConvexHttpClient } = require("convex/browser");
-// const jwt = require("jsonwebtoken");
-// const { Pool } = require("pg");
-// const dbParams = require("../lib/db.js");
-// const db = new Pool(dbParams);
-// const queries = require("./dbQueries/pinQueries");
-// db.connect();
+
 const client = new ConvexHttpClient(process.env["CONVEX_URL"]);
 
-// const pins = [
-//   {
-//     title: "Bizantine chair",
-//     description:
-//       "This nice chair made from silk has only been used for a few month. It has soft cushions for maximum comfort.",
-//     picture:
-//       "https://i.pinimg.com/originals/d9/8c/98/d98c9835981b8eb41968f62185559f8b.jpg",
-//     condition: "Like new",
-//     latitude: 45.5017,
-//     longitude: -73.5673,
-//     date: "2022-01-25",
-//     creator_id: 5,
-//     claimer_id: null,
-//   },
-// ];
+type Pin = Record<
+  | "_id"
+  | "title"
+  | "description"
+  | " picture"
+  | "condition"
+  | "latitude"
+  | "longitude"
+  | "date"
+  | "creator_id"
+  | "claimer_id",
+  string | string | string | string | number | number | Date | string | string
+>;
+
 const router = Router();
+
 //Select all pins
 
 router.get("/api/pins", async (req, res) => {
@@ -41,76 +36,89 @@ router.get("/api/pins", async (req, res) => {
 
 //Select individual pins
 
-// router.get("/api/pins/:id", (req, res) => {
-//   queries
-//     .getPinsById(db, req.params.id)
-//     .then((response) => res.send(response.rows))
-//     .catch((err) => {
-//       console.log("API/pins error:", err);
-//       res.status(500).send();
-//     });
-// });
+router.get("/api/pins/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const pins = await client.query("getPins");
+    const pin = pins.find((p: Pin) => id === p._id.toString());
+    res.json(pin);
+  } catch (err) {
+    console.log("API/pins error:", err);
+    res.status(500).send();
+  }
+});
 
 // //Delete individual pins
 
-// router.delete("/api/pins/:id", (req, res) => {
-//   queries
-//     .deletePins(db, req.params.id)
-//     .then(() => {
-//       res.send(200);
-//     })
-//     .catch((err) => {
-//       console.log("API/pins error:", err);
-//       res.status(500).send();
-//     });
-// });
+router.delete("/api/pins/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const pins = await client.query("getPins");
+    const pinFound = pins.find((p: Pin) => id === p._id.toString());
+    if (!pinFound) {
+      res.send(`The record with id ${id} doesn't exist`);
+      return;
+    }
+    client.mutation("deletePin", { id: pinFound._id });
+    res.send(`The record with id ${id} has been deleted`);
+  } catch (err) {
+    console.log("API/pins error:", err);
+    res.status(500).send();
+  }
+});
 
 // //Update individual pins
 
-// router.put("/api/pins/:id", async (req, res) => {
-//   try {
-//     const { userID, pinID } = req.body;
-//     await queries.updateIndividualPins(db, userID, pinID).then((response) => {
-//       res.json(response.rows);
-//     });
-//   } catch (err) {
-//     console.error(err.message);
-//   }
-// });
+router.put("/api/pins/:id", async (req, res) => {
+  try {
+    const { userID, pinID, updateObject } = req.body;
+    //     await queries.updateIndividualPins(db, userID, pinID).then((response) => {
+    //       res.json(response.rows);
+    const id = req.params.id;
+    const pins = await client.query("getPins");
+    const pinFound = pins.find((p: Pin) => id === p._id.toString());
+    if (!pinFound) {
+      res.send(`The record with id ${id} doesn't exist`);
+      return;
+    }
+    client.mutation("updatePin", { id: pinFound._id, tag: updateObject });
+    res.send(`The record with id ${id} has been updated`);
+  } catch (err) {
+    console.error(err);
+  }
+});
 
-// router.post("/api/pins", async (req, res) => {
-//   try {
-//     //test compare with users
+router.post("/api/pins/", async (req, res) => {
+  try {
+    const {
+      title,
+      description,
+      picture,
+      condition,
+      latitude,
+      longitude,
+      date,
+      creator_id,
+      claimer_id,
+    } = req.body;
+    //     await queries.updateIndividualPins(db, userID, pinID).then((response) => {
+    //       res.json(response.rows);
 
-//     jwt.verify(req.headers.token, process.env.TOKEN_KEY);
-//     const {
-//       title,
-//       description,
-//       picture,
-//       condition,
-//       latitude,
-//       longitude,
-//       date,
-//       creator_id,
-//       claimer_id,
-//     } = req.body;
-
-//     const newPin = await queries.insertNewPin(
-//       db,
-//       title,
-//       description,
-//       picture,
-//       condition,
-//       latitude,
-//       longitude,
-//       date,
-//       creator_id,
-//       claimer_id
-//     );
-//     res.json(newPin);
-//   } catch (err) {
-//     console.error(err.message);
-//   }
-// });
+    client.mutation("createPin", {
+      title: title,
+      description: description,
+      picture: picture,
+      condition: condition,
+      latitude: latitude,
+      longitude: longitude,
+      date: date,
+      creator_id: creator_id,
+      claimer_id: claimer_id,
+    });
+    res.send(`The record has been created`);
+  } catch (err) {
+    console.error(err);
+  }
+});
 
 export default router;

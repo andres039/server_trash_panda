@@ -19,6 +19,13 @@ const app = express();
 // app.use(cors({ origin: "*" }));
 // app.use(express.static(path.join(__dirname, "public")));
 
+// Parse JSON-encoded request bodies
+
+app.use(express.json());
+
+// Parse URL-encoded request bodies
+app.use(express.urlencoded({ extended: true }));
+
 //Routes
 app.use(users);
 app.use(pins)
