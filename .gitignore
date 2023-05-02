@@ -1,0 +1,7 @@
+/.env*
+node_modules
+pins.json
+users.json
+/db
+/lib
+/routes/dbQueries
