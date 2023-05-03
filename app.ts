@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
-import users from '../routes/users'
-import pins from '../routes/pins'
+import users from './routes/users'
+import pins from './routes/pins'
 // const path = require("path");
 // const cookieParser = require("cookie-parser");
 // const logger = require("morgan");
