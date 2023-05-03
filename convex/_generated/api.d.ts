@@ -11,9 +11,13 @@
 
 import type { ApiFromModules } from "convex/api";
 import type * as createPin from "../createPin";
+import type * as createPin from "../createPin";
+import type * as createUser from "../createUser";
 import type * as createUser from "../createUser";
 import type * as deletePin from "../deletePin";
 import type * as getPins from "../getPins";
+import type * as getPins from "../getPins";
+import type * as getUsers from "../getUsers";
 import type * as getUsers from "../getUsers";
 import type * as updatePin from "../updatePin";
 
@@ -28,9 +32,13 @@ import type * as updatePin from "../updatePin";
  */
 export type API = ApiFromModules<{
   createPin: typeof createPin;
+  createPin: typeof createPin;
+  createUser: typeof createUser;
   createUser: typeof createUser;
   deletePin: typeof deletePin;
   getPins: typeof getPins;
+  getPins: typeof getPins;
+  getUsers: typeof getUsers;
   getUsers: typeof getUsers;
   updatePin: typeof updatePin;
 }>;

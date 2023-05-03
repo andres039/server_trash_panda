@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const users_1 = __importDefault(require("../routes/users"));
-const pins_1 = __importDefault(require("../routes/pins"));
+const users_1 = __importDefault(require("./routes/users"));
+const pins_1 = __importDefault(require("./routes/pins"));
 // const path = require("path");
 // const cookieParser = require("cookie-parser");
 // const logger = require("morgan");
