@@ -29,6 +29,7 @@ app.use(express_1.default.urlencoded({ extended: true }));
 //Routes
 app.use(users_1.default);
 app.use(pins_1.default);
+app.get('/api', (req, res) => res.send('it works'))
 app.get('/', (req, res) => res.send('HOla'));
 app.listen(PORT, () => {
     console.log(`♻️ 🦝 listening on port ${PORT} 🐼 ♻️ `);
