@@ -15,7 +15,7 @@ const pins_1 = __importDefault(require("./routes/pins"));
 // const pinsRouter = require("../routes/pins");
 dotenv_1.default.config();
 const PORT = process.env.PORT;
-const app = (0, express_1.default)();
+const app = express_1.default();
 // app.use(logger("dev"));
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));

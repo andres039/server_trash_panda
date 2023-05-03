@@ -5,16 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "ts-node src/app.ts",
-    "build": "npx tsc",
-    "ts.check": "tsc --project tsconfig.json",
-    "add-build": "git add dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx tsc"
   },
-  "pre-commit": [
-    "ts.check",
-    "build",
-    "add-build"
-],
   "dependencies": {
     "bcrypt": "^5.0.1",
     "convex": "^0.14.0",
