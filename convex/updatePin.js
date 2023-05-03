@@ -1,5 +1,7 @@
 import { mutation } from "./_generated/server";
 
-export default mutation(async ({ db }, { id, tag }) => {
-  await db.patch(id, { tag });
+export default mutation(async ({ db }, { id, field }) => {
+  console.log('field', field )
+
+  await db.patch(id, { field } );
 });

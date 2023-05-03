@@ -48,7 +48,7 @@ router.get("/api/pins/:id", async (req, res) => {
   }
 });
 
-// //Delete individual pins
+//Delete individual pins
 
 router.delete("/api/pins/:id", async (req, res) => {
   try {
@@ -67,21 +67,26 @@ router.delete("/api/pins/:id", async (req, res) => {
   }
 });
 
-// //Update individual pins
+//Update individual pins
 
-router.put("/api/pins/:id", async (req, res) => {
+router.put("/api/pins/:id/search/", async (req, res) => {
   try {
-    const { userID, pinID, updateObject } = req.body;
+    const { userID, pinID, field, value } = req.body;
     //     await queries.updateIndividualPins(db, userID, pinID).then((response) => {
     //       res.json(response.rows);
-    const id = req.params.id;
+    const { id } = req.params;
+    // const { field, value } = req.query;
     const pins = await client.query("getPins");
     const pinFound = pins.find((p: Pin) => id === p._id.toString());
     if (!pinFound) {
       res.send(`The record with id ${id} doesn't exist`);
       return;
     }
-    client.mutation("updatePin", { id: pinFound._id, tag: updateObject });
+    console.log(field, value);
+    client.mutation("updatePin", {
+      id: pinFound._id,
+      field: value,
+    });
     res.send(`The record with id ${id} has been updated`);
   } catch (err) {
     console.error(err);
